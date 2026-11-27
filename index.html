@@ -196,5 +196,106 @@
   </div>
 </footer>
 
+<script>
+/* RU/EN */
+(function () {
+  // RU/EN: language from ?lang=, then saved choice, then browser (ru/uk/be/kk → ru, else en).
+  var EN = {
+"Curved shadow — изогнутая тень для Figma": "Curved shadow — a curved drop shadow for Figma",
+"Бесплатный плагин Figma: кладёт под объект мягкую изогнутую тень — карточка, картинка или стикер словно приподняты над страницей. Живые ползунки, работает локально.": "A free Figma plugin that puts a soft, curved shadow under any object, so cards, images and stickers look lifted off the page. Live sliders, runs locally.",
+"Мягкая дуговая тень под любым объектом. Бесплатный плагин Figma с живыми ползунками.": "A soft, arched shadow under any object. A free Figma plugin with live sliders.",
+"Как работает": "How it works",
+"Другие плагины": "More plugins",
+"Скачать": "Download",
+"Плагин для Figma": "A Figma plugin",
+"Изогнутая тень.": "A curved shadow.",
+"Под любым объектом.": "Under anything.",
+"Мягкая дуговая тень под карточкой, картинкой или стикером — будто они приподняты над страницей. Живые ползунки, без подписок, прямо в Figma.": "A soft, arched shadow under a card, image or sticker — as if it were lifting off the page. Live sliders, no subscription, right inside Figma.",
+"Скачать бесплатно": "Download for free",
+"Как это работает ›": "See how it works ›",
+"Мягкий изгиб": "Gentle curve",
+"Глубокий": "Deep",
+"Провис (минусовой)": "Sag (negative)",
+"Одна и та же карточка с разным изгибом. Минус прогибает тень вниз — углы будто приподняты.": "The same card with different curves. A negative value bends the shadow down, so the corners seem to curl up.",
+"Умнее встроенной тени.": "Smarter than the built-in shadow.",
+"Drop shadow в Figma всегда прямой и ровный. Curved shadow идёт по дуге — так тень выглядит живой.": "Figma’s drop shadow is always flat and straight. Curved shadow follows an arc, which makes it look real.",
+"Настоящая дуга": "A real arc",
+"Тень гнётся по кривой Безье с круглыми концами, а не лежит прямым прямоугольником.": "The shadow bends along a Bézier curve with rounded ends instead of sitting there as a flat rectangle.",
+"Под любой объект": "Works with anything",
+"Фрейм, картинка, текст, группа — тень встаёт по центру под выделением.": "Frame, image, text or group — the shadow centers itself under your selection.",
+"Живые ползунки": "Live sliders",
+"Ширина, изгиб, толщина, размытие, отступ, прозрачность и цвет — превью рисуется сразу.": "Width, curve, thickness, blur, offset, opacity and color — the preview updates instantly.",
+"Вверх и вниз": "Up or down",
+"Плюс — приподнятая карточка, минус — провисание с поднятыми углами. Один ползунок.": "Positive lifts the card, negative makes it sag with the corners curling up. All on one slider.",
+"Не ломает макет": "Leaves your layout alone",
+"Тень — отдельный слой под объектом. Повторное применение обновляет её, а не плодит новые.": "The shadow is a separate layer under the object. Applying it again updates the existing one instead of piling up copies.",
+"Локально и бесплатно": "Local and free",
+"Всё считается на вашем компьютере. Без подписок, лимитов и регистрации.": "Everything runs on your computer. No subscriptions, no limits, no sign-up.",
+"Три шага.": "Three steps.",
+"От выделения до готовой тени — несколько секунд.": "From selection to finished shadow in a few seconds.",
+"Выделите объект": "Select an object",
+"Одну карточку или сразу несколько — тень встанет под каждую.": "One card or several at once — each one gets its own shadow.",
+"Покрутите ползунки": "Play with the sliders",
+"Изгиб, размытие, цвет. Превью в панели, а на холсте тень обновляется вживую.": "Curve, blur, color. There’s a preview in the panel, and the shadow on the canvas updates live.",
+"«Положить тень»": "Apply the shadow",
+"Тень ложится отдельным слоем под объект. «Убрать тень» снимает её так же быстро.": "The shadow drops in as a separate layer under the object. Removing it is just as quick.",
+"Приподнимите свою карточку.": "Give your card a lift.",
+"Скачайте архив и установите за минуту: распакуйте, затем в Figma → Plugins → Development → Import plugin from manifest → выберите manifest.json.": "Download the archive and install it in a minute: unzip it, then in Figma go to Plugins → Development → Import plugin from manifest → pick manifest.json.",
+"Скачать для Figma": "Download for Figma",
+"Нужна Figma для компьютера · ~7 КБ · Mac и Windows": "Requires the Figma desktop app · ~7 KB · Mac and Windows",
+"Curved shadow — бесплатный плагин для Figma.": "Curved shadow is a free Figma plugin.",
+"Другие плагины: Erasely и Figma → After Effects ›": "More plugins: Erasely and Figma → After Effects ›"
+};
+  var K = 'lang', CYR = /[А-Яа-яЁё]/, ATTRS = ['alt', 'aria-label', 'title', 'placeholder', 'content'];
+  function norm(s) { return s.replace(/\s+/g, ' ').trim(); }
+  function save(l) { try { localStorage.setItem(K, l); } catch (e) {} }
+  function detect() {
+    try { var q = new URLSearchParams(location.search).get('lang'); if (q === 'en' || q === 'ru') { save(q); return q; } } catch (e) {}
+    try { var s = localStorage.getItem(K); if (s === 'en' || s === 'ru') return s; } catch (e) {}
+    var l = (navigator.languages && navigator.languages[0]) || navigator.language || '';
+    return /^(ru|uk|be|kk)\b/i.test(l) ? 'ru' : 'en';
+  }
+  var texts = [], attrs = [];
+  var w = document.createTreeWalker(document.documentElement, NodeFilter.SHOW_TEXT, {
+    acceptNode: function (n) { var p = n.parentNode && n.parentNode.nodeName; return p === 'SCRIPT' || p === 'STYLE' ? 2 : 1; }
+  });
+  for (var n; (n = w.nextNode());) { var k = norm(n.nodeValue); if (k && EN.hasOwnProperty(k)) texts.push([n, n.nodeValue, k]); else if (CYR.test(k)) console.warn('i18n: no EN for', k); }
+  document.querySelectorAll('*').forEach(function (el) {
+    ATTRS.forEach(function (a) { var v = el.getAttribute(a); if (v && EN.hasOwnProperty(norm(v))) attrs.push([el, a, v, norm(v)]); });
+  });
+  var btn;
+  function apply(l) {
+    document.documentElement.lang = l;
+    texts.forEach(function (t) {
+      if (l === 'ru') { t[0].nodeValue = t[1]; return; }
+      var m = t[1].match(/^\s*/)[0], e = t[1].match(/\s*$/)[0];
+      t[0].nodeValue = m + EN[t[2]] + e;
+    });
+    attrs.forEach(function (a) { a[0].setAttribute(a[1], l === 'ru' ? a[2] : EN[a[3]]); });
+    if (btn) {
+      btn.children[0].className = l === 'ru' ? 'on' : '';
+      btn.children[1].className = l === 'en' ? 'on' : '';
+      btn.setAttribute('aria-label', l === 'ru' ? 'Switch to English' : 'Switch to Russian');
+    }
+    window.dispatchEvent(new Event('langchange'));
+    window.dispatchEvent(new Event('resize'));
+  }
+  var st = document.createElement('style');
+  st.textContent = '.lang-sw{font:inherit;font-size:12px;line-height:1;letter-spacing:.02em;background:none;border:1px solid color-mix(in srgb,currentColor 25%,transparent);' +
+    'border-radius:980px;padding:5px 9px;color:inherit;cursor:pointer;opacity:.75;display:inline-flex;gap:5px;align-items:center}' +
+    '.lang-sw:hover{opacity:1}.lang-sw span{opacity:.5}.lang-sw span.on{opacity:1;font-weight:600}';
+  document.head.appendChild(st);
+  var links = document.querySelector('nav .links');
+  if (links) {
+    btn = document.createElement('button');
+    btn.type = 'button'; btn.className = 'lang-sw';
+    btn.innerHTML = '<span>RU</span><span>EN</span>';
+    btn.onclick = function () { var l = document.documentElement.lang === 'ru' ? 'en' : 'ru'; save(l); apply(l); };
+    var cta = links.querySelector('.cta, .pill');
+    links.insertBefore(btn, cta || null);
+  }
+  apply(detect());
+})();
+</script>
 </body>
 </html>
